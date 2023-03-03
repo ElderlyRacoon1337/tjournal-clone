@@ -44,3 +44,22 @@ a {
   transform: rotate(-90deg) translateY(-10px);
   transform-origin: right;
 }
+
+.input {
+  background-color: rgba(0, 0, 0, 0.05);
+  margin-left: 20px;
+  border-radius: 10px;
+  min-width: 300px;
+  height: 42px;
+  border: none;
+  outline: none;
+  padding-left: 40px;
+  font-size: 1rem;
+  &:hover {
+    background-color: white;
+  }
+
+  &:focus {
+    background-color: white;
+  }
+}

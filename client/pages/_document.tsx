@@ -21,7 +21,6 @@ export default function Document() {
       <body>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Header />
           <Main />
           <NextScript />
         </ThemeProvider>

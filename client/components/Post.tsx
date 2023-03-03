@@ -1,4 +1,4 @@
-import { IconButton, Paper, Stack, Typography } from '@mui/material';
+import { Button, IconButton, Paper, Stack, Typography } from '@mui/material';
 import React from 'react';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import RepeatOutlinedIcon from '@mui/icons-material/RepeatOutlined';
@@ -10,12 +10,21 @@ const Post = () => {
   return (
     <Stack mb={'30px'} maxWidth={'600px'}>
       <Link href={'/news/123'}>
-        <Paper sx={{ bgcolor: 'white', p: '20px', borderRadius: '10px' }}>
+        <Paper
+          sx={{
+            p: '20px',
+            borderRadius: '10px',
+          }}
+        >
           <Typography variant="h6" mb={'10px'}>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto
             sapiente odit quisquam minima provident fugit soluta odio natus qui
           </Typography>
-          <Typography mb={'10px'} variant="body2" color={'textSecondary'}>
+          <Typography
+            mb={'10px'}
+            variant="body2"
+            sx={{ color: 'text.secondary !important' }}
+          >
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore,
             ipsum veniam enim voluptas facere, nostrum quos, iste ratione
             possimus explicabo laudantium fugit. Officiis esse ex nulla id
