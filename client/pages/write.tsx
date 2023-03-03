@@ -22,7 +22,7 @@ const WritePage = () => {
       <Stack>
         <Paper
           sx={{
-            backgroundColor: 'white',
+            backgroundColor: 'background',
             p: '50px',
             borderRadius: '0px',
             height: 'calc(100vh - 200px)',
@@ -43,7 +43,7 @@ const WritePage = () => {
               fontSize: 20,
               fontFamily: 'inherit',
               marginTop: '10px',
-              backgroundColor: 'white',
+              backgroundColor: 'transparent',
               color: 'inherit',
               padding: '20px',
               borderRadius: '10px',

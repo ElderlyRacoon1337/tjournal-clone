@@ -5,32 +5,30 @@ export const theme = createTheme({
   palette: {
     mode,
     // @ts-ignore
-    // ...(mode === 'light'
-    //   ? {
-    //       text: {
-    //         primary: '#000',
-    //         secondary: 'rgb(83, 100, 113)',
-    //       },
-    //       background: {
-    //         default: '#F5F4F5',
-    //         paper: '#fff',
-    //       },
-    //     }
-    //   : {
-    //       background: {
-    //         default: '#000',
-    //         paper: '#171717',
-    //       },
-    //       text: {
-    //         primary: '#fff',
-    //         secondary: '#6F7478',
-    //       },
-    //     }),
+    ...(mode === 'light'
+      ? {
+          text: {
+            primary: '#000',
+            secondary: 'rgb(83, 100, 113)',
+          },
+          background: {
+            default: '#F5F4F5',
+            paper: '#fff',
+          },
+          switch: 'white',
+        }
+      : {
+          background: {
+            default: '#000',
+            paper: '#171717',
+          },
+          text: {
+            primary: '#fff',
+            secondary: '#6F7478',
+          },
+          switch: 'black',
+        }),
 
-    background: {
-      default: '#F5F4F5',
-      paper: '#fff',
-    },
     primary: {
       main: '#4683D9',
     },
@@ -87,6 +85,15 @@ export const theme = createTheme({
           backgroundColor: '#4683D9',
           '&:hover': {
             backgroundColor: '#437CCE',
+          },
+        },
+        containedSecondary: {
+          backgroundColor: 'rgba(0,0,0,0.1)',
+          color: 'inherit',
+          boxShadow: '0px 0px 10px 0px rgba(34, 60, 80, 0.1)',
+          '&:hover': {
+            backgroundColor: 'rgba(0,0,0,0.3)',
+            boxShadow: '0px 0px 10px 0px rgba(34, 60, 80, 0.2)',
           },
         },
       },

@@ -20,7 +20,7 @@ const LeftMenu = () => {
                   p: '10px',
                   borderRadius: '10px',
                   minWidth: '200px',
-                  bgcolor: 'white',
+                  bgcolor: 'divider',
                 }
               : {
                   mb: '10px',
@@ -31,7 +31,7 @@ const LeftMenu = () => {
           }
         >
           <ListItemIcon>
-            <WhatshotIcon sx={{ color: 'text.primary' }} />
+            <WhatshotIcon />
           </ListItemIcon>
           <ListItemText primary={'Лента'} />
         </MenuItem>
@@ -45,7 +45,7 @@ const LeftMenu = () => {
                   p: '10px',
                   borderRadius: '10px',
                   minWidth: '200px',
-                  bgcolor: 'white',
+                  bgcolor: 'divider',
                 }
               : {
                   mb: '10px',
@@ -70,7 +70,7 @@ const LeftMenu = () => {
                   p: '10px',
                   borderRadius: '10px',
                   minWidth: '200px',
-                  bgcolor: 'white',
+                  bgcolor: 'divider',
                 }
               : {
                   mb: '10px',
@@ -95,7 +95,7 @@ const LeftMenu = () => {
                   p: '10px',
                   borderRadius: '10px',
                   minWidth: '200px',
-                  bgcolor: 'white',
+                  bgcolor: 'divider',
                 }
               : {
                   mb: '10px',

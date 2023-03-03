@@ -51,7 +51,14 @@ const PostComment: React.FC<PostCommentProps> = ({ text, createdAt, user }) => {
         </Menu>
       </Stack>
 
-      <Box sx={{ borderBottom: '1px solid #eee', width: '100%', my: '20px' }} />
+      <Box
+        sx={{
+          borderBottom: '1px solid',
+          borderColor: 'divider',
+          width: '100%',
+          my: '20px',
+        }}
+      />
     </Stack>
   );
 };

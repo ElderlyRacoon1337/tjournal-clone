@@ -4,9 +4,7 @@ import {
   Box,
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   IconButton,
   Stack,
@@ -33,7 +31,7 @@ const Header = () => {
 
   return (
     <Box>
-      <AppBar position="static" color="secondary" sx={{ boxShadow: 'none' }}>
+      <AppBar position="sticky" color="secondary" sx={{ boxShadow: 'none' }}>
         <Toolbar
           variant="dense"
           sx={{ py: '10px', justifyContent: 'space-between' }}
@@ -58,7 +56,7 @@ const Header = () => {
               />
             </Box>
             <Link href={'/write'}>
-              <Button variant="contained" color="inherit" sx={{ ml: '20px' }}>
+              <Button variant="contained" color="secondary" sx={{ ml: '20px' }}>
                 Новая запись
               </Button>
             </Link>

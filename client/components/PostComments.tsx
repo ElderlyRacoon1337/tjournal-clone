@@ -37,7 +37,12 @@ const PostComments: React.FC<PostCommentProps> = ({ items }) => {
           <Tab label="По порядку" />
         </Tabs>
         <Box
-          sx={{ borderBottom: '1px solid #eee', width: '100%', my: '20px' }}
+          sx={{
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+            width: '100%',
+            my: '20px',
+          }}
         />
         <AddCommentForm />
         <Stack sx={{ m: '0 auto' }}>
