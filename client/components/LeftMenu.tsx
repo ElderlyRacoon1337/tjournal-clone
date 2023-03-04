@@ -20,7 +20,7 @@ const LeftMenu = () => {
                   p: '10px',
                   borderRadius: '10px',
                   minWidth: '200px',
-                  bgcolor: 'divider',
+                  bgcolor: 'background.paper',
                 }
               : {
                   mb: '10px',
@@ -45,7 +45,7 @@ const LeftMenu = () => {
                   p: '10px',
                   borderRadius: '10px',
                   minWidth: '200px',
-                  bgcolor: 'divider',
+                  bgcolor: 'background.paper',
                 }
               : {
                   mb: '10px',
@@ -70,7 +70,7 @@ const LeftMenu = () => {
                   p: '10px',
                   borderRadius: '10px',
                   minWidth: '200px',
-                  bgcolor: 'divider',
+                  bgcolor: 'background.paper',
                 }
               : {
                   mb: '10px',
@@ -95,7 +95,7 @@ const LeftMenu = () => {
                   p: '10px',
                   borderRadius: '10px',
                   minWidth: '200px',
-                  bgcolor: 'divider',
+                  bgcolor: 'background.paper',
                 }
               : {
                   mb: '10px',

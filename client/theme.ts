@@ -15,7 +15,9 @@ export const theme = createTheme({
             default: '#F5F4F5',
             paper: '#fff',
           },
-          switch: 'white',
+          switch: {
+            main: 'white',
+          },
         }
       : {
           background: {
@@ -26,7 +28,9 @@ export const theme = createTheme({
             primary: '#fff',
             secondary: '#6F7478',
           },
-          switch: 'black',
+          switch: {
+            main: 'black',
+          },
         }),
 
     primary: {
@@ -61,7 +65,7 @@ export const theme = createTheme({
     },
     MuiButton: {
       styleOverrides: {
-        root: {
+        root: ({ ownerState, theme }) => ({
           borderRadius: '8px',
           textTransform: 'inherit',
           fontSize: 16,
@@ -71,31 +75,33 @@ export const theme = createTheme({
           '&:active': {
             transform: 'translateY(1px)',
           },
-        },
-
-        contained: {
-          backgroundColor: 'white',
-          boxShadow: '0px 0px 10px 0px rgba(34, 60, 80, 0.1)',
-          '&:hover': {
-            backgroundColor: 'white',
-            boxShadow: '0px 0px 10px 0px rgba(34, 60, 80, 0.2)',
-          },
-        },
-        containedPrimary: {
-          backgroundColor: '#4683D9',
-          '&:hover': {
-            backgroundColor: '#437CCE',
-          },
-        },
-        containedSecondary: {
-          backgroundColor: 'rgba(0,0,0,0.1)',
-          color: 'inherit',
-          boxShadow: '0px 0px 10px 0px rgba(34, 60, 80, 0.1)',
-          '&:hover': {
-            backgroundColor: 'rgba(0,0,0,0.3)',
-            boxShadow: '0px 0px 10px 0px rgba(34, 60, 80, 0.2)',
-          },
-        },
+          ...(ownerState.variant === 'contained' &&
+            ownerState.color === 'primary' && {
+              backgroundColor: 'primary',
+              boxShadow: '0px 0px 5px 0px rgba(34, 60, 80, 0.3)',
+              '&:hover': {
+                boxShadow: '0px 0px 10px 0px rgba(34, 60, 80, 0.3)',
+              },
+            }),
+          ...(ownerState.variant === 'contained' &&
+            ownerState.color === 'secondary' && {
+              backgroundColor:
+                theme.palette.mode == 'dark' ? 'rgba(0,0,0,0.5)' : 'white',
+              color: 'inherit',
+              boxShadow:
+                theme.palette.mode == 'dark'
+                  ? '0px 1px 1px 0px rgb(0, 0, 0 / 15%), 0px 4px 7px 0px rgb(0, 0, 0 / 5%), 0px -1px 0px rgb(0, 0, 0 / 5%), -1px 0px 0px rgb(0, 0, 0 / 5%), 1px 0px 0px rgb(0, 0, 0 / 5%)'
+                  : '0px 1px 1px 0px rgb(0, 0, 0 / 15%), 0px 4px 7px 0px rgb(0, 0, 0 / 5%), 0px -1px 0px rgb(0, 0, 0 / 5%), -1px 0px 0px rgb(0, 0, 0 / 5%), 1px 0px 0px rgb(0, 0, 0 / 5%)',
+              '&:hover': {
+                backgroundColor:
+                  theme.palette.mode == 'dark' ? 'rgba(0,0,0,0.5)' : 'white',
+                boxShadow:
+                  theme.palette.mode == 'dark'
+                    ? '0px 1px 1px 0px rgb(0, 0, 0 / 18%), 0px 4px 7px 0px rgb(0, 0, 0 / 8%), 0px -1px 0px rgb(0, 0, 0 / 8%), -1px 0px 0px rgb(0, 0, 0 / 8%), 1px 0px 0px rgb(0, 0, 0 / 15%)'
+                    : '0px 1px 1px 0px rgb(0, 0, 0 / 18%), 0px 4px 7px 0px rgb(0, 0, 0 / 8%), 0px -1px 0px rgb(0, 0, 0 / 8%), -1px 0px 0px rgb(0, 0, 0 / 8%), 1px 0px 0px rgb(0, 0, 0 / 15%)',
+              },
+            }),
+        }),
       },
     },
   },
