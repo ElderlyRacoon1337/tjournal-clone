@@ -1,19 +1,52 @@
 import { ArrowBackIosOutlined } from '@mui/icons-material';
-import { Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  Link,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { RegisterSchema } from '@/utils/validations';
+import { CreateUserDto } from '@/utils/api/types';
+import { UserApi } from '@/utils/api';
+import { setCookie } from 'nookies';
+import { useState } from 'react';
 
 const RegisterForm = ({ setFormType }: any) => {
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
   } = useForm({
     mode: 'onChange',
     resolver: yupResolver(RegisterSchema),
   });
+
+  const [errorMessage, setErrorMessage] = useState<any>(null);
+
+  const onSubmit = async (dto: CreateUserDto) => {
+    try {
+      const data = await UserApi.register(dto);
+      setCookie(null, 'access_token', data.access_token, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/',
+      });
+    } catch (error: any) {
+      console.warn('Authorization error');
+      if (error) {
+        console.log(error);
+        setErrorMessage(error.response.data.message);
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 10000);
+      }
+    }
+  };
 
   return (
     <>
@@ -46,12 +79,13 @@ const RegisterForm = ({ setFormType }: any) => {
         </Link>
       </Typography>
       <Stack sx={{ width: '100%' }}>
-        <form onSubmit={handleSubmit(() => console.log('e'))}>
+        {/* @ts-ignore */}
+        <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
-            {...register('fullname')}
+            {...register('fullName')}
             fullWidth
-            helperText={errors.fullname?.message?.toString()}
-            error={errors.fullname?.toString() ? true : false}
+            helperText={errors.fullName?.message?.toString()}
+            error={errors.fullName?.toString() ? true : false}
             autoFocus
             variant="outlined"
             size="small"
@@ -80,8 +114,19 @@ const RegisterForm = ({ setFormType }: any) => {
             type={'password'}
             sx={{ mb: '20px' }}
           />
+          {errorMessage ? (
+            <Alert severity="error" sx={{ mt: '0px', mb: '20px' }}>
+              {errorMessage}
+            </Alert>
+          ) : (
+            ''
+          )}
           <Box>
-            <Button disabled={!isValid} type="submit" variant="contained">
+            <Button
+              disabled={!isValid || isSubmitting}
+              type="submit"
+              variant="contained"
+            >
               Зарегистрироваться
             </Button>
           </Box>

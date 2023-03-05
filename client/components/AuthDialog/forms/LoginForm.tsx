@@ -1,8 +1,20 @@
 import { ArrowBackIosOutlined } from '@mui/icons-material';
-import { Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  Link,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { LoginSchema } from '@/utils/validations';
+import { setCookie } from 'nookies';
+import { LoginDto } from '@/utils/api/types';
+import { UserApi } from '@/utils/api';
+import { useState } from 'react';
 
 const LoginForm = ({ setFormType }: any) => {
   const {
@@ -14,6 +26,27 @@ const LoginForm = ({ setFormType }: any) => {
     mode: 'onChange',
     resolver: yupResolver(LoginSchema),
   });
+
+  const [errorMessage, setErrorMessage] = useState<any>(null);
+
+  const onSubmit = async (dto: LoginDto) => {
+    try {
+      const data = await UserApi.login(dto);
+      setCookie(null, 'access_token', data.access_token, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/',
+      });
+    } catch (error: any) {
+      console.warn('Authorization error');
+      if (error) {
+        console.log(error);
+        setErrorMessage(error.response.data.message);
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 10000);
+      }
+    }
+  };
 
   return (
     <>
@@ -46,7 +79,8 @@ const LoginForm = ({ setFormType }: any) => {
         </Link>
       </Typography>
       <Stack sx={{ width: '100%' }}>
-        <form onSubmit={handleSubmit(() => console.log('e'))}>
+        {/* @ts-ignore */}
+        <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
             {...register('email')}
             fullWidth
@@ -70,6 +104,13 @@ const LoginForm = ({ setFormType }: any) => {
             type={'password'}
             sx={{ mb: '20px' }}
           />
+          {errorMessage ? (
+            <Alert severity="error" sx={{ mt: '0px', mb: '20px' }}>
+              {errorMessage}
+            </Alert>
+          ) : (
+            ''
+          )}
           <Stack
             direction={'row'}
             justifyContent="space-between"

@@ -15,14 +15,13 @@ export class AuthService {
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userService.findOneByEmail(email);
     if (!user) {
-      throw new Error();
+      throw new ForbiddenException('Email or password is incorrect');
     }
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (isPasswordCorrect) {
       const { password, ...result } = user;
       return result;
     }
-    return null;
   }
 
   async login(user: UserEntity) {
