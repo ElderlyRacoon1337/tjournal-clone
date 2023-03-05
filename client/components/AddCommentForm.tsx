@@ -27,6 +27,7 @@ const AddCommentForm = () => {
           borderRadius: '10px',
           mb: '30px',
           bgcolor: '#F9F8F9',
+          color: 'black',
         }}
       />
       {isActive && (
