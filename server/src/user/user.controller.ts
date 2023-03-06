@@ -26,7 +26,7 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Get('me')
   async getProfile(@Request() req) {
-    return req.user;
+    return this.userService.findOne(+req.user.id);
   }
 
   @Get('search')

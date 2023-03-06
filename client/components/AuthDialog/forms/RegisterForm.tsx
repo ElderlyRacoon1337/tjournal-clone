@@ -12,11 +12,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { RegisterSchema } from '@/utils/validations';
 import { CreateUserDto } from '@/utils/api/types';
-import { UserApi } from '@/utils/api';
+import { UserApi } from '@/utils/api/axios';
 import { setCookie } from 'nookies';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { registration } from '@/redux/slices/user';
 
-const RegisterForm = ({ setFormType }: any) => {
+const RegisterForm = ({ setFormType, setOpen }: any) => {
   const {
     register,
     handleSubmit,
@@ -28,14 +30,18 @@ const RegisterForm = ({ setFormType }: any) => {
   });
 
   const [errorMessage, setErrorMessage] = useState<any>(null);
+  const dispatch = useDispatch();
 
   const onSubmit = async (dto: CreateUserDto) => {
     try {
-      const data = await UserApi.register(dto);
-      setCookie(null, 'access_token', data.access_token, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/',
-      });
+      // const data = await UserApi.register(dto);
+      // @ts-ignore
+      dispatch(registration(dto));
+      setOpen(false);
+      // setCookie(null, 'access_token', data.access_token, {
+      //   maxAge: 30 * 24 * 60 * 60,
+      //   path: '/',
+      // });
     } catch (error: any) {
       console.warn('Authorization error');
       if (error) {

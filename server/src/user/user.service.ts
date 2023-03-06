@@ -1,5 +1,5 @@
 import { SearchUserDto } from './dto/search-user.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -24,8 +24,13 @@ export class UserService {
     return this.repository.findOneBy({ email });
   }
 
-  findOne(id: number) {
-    return this.repository.findOneBy({ id });
+  async findOne(id: number) {
+    const user = await this.repository.findOneBy({ id });
+    if (user) {
+      const { password, ...userData } = user;
+      return userData;
+    }
+    throw new NotFoundException();
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

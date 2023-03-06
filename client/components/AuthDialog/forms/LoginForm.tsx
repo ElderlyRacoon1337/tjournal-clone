@@ -13,10 +13,12 @@ import { useForm } from 'react-hook-form';
 import { LoginSchema } from '@/utils/validations';
 import { setCookie } from 'nookies';
 import { LoginDto } from '@/utils/api/types';
-import { UserApi } from '@/utils/api';
+import { UserApi } from '@/utils/api/axios';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { login, setUserData } from '@/redux/slices/user';
 
-const LoginForm = ({ setFormType }: any) => {
+const LoginForm = ({ setFormType, setOpen }: any) => {
   const {
     register,
     handleSubmit,
@@ -28,14 +30,13 @@ const LoginForm = ({ setFormType }: any) => {
   });
 
   const [errorMessage, setErrorMessage] = useState<any>(null);
+  const dispatch = useDispatch();
 
   const onSubmit = async (dto: LoginDto) => {
     try {
-      const data = await UserApi.login(dto);
-      setCookie(null, 'access_token', data.access_token, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/',
-      });
+      // @ts-ignore
+      dispatch(login(dto));
+      setOpen(false);
     } catch (error: any) {
       console.warn('Authorization error');
       if (error) {

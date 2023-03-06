@@ -15,10 +15,12 @@ import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import Link from 'next/link';
 import AuthDialog from './AuthDialog';
+import { useSelector } from 'react-redux';
+import { selectIsAuth } from '@/redux/slices/user';
 
 const Header = () => {
   const [open, setOpen] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
+  const userData = useSelector(selectIsAuth);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,7 +59,7 @@ const Header = () => {
             </Link>
           </Stack>
           <Stack direction={'row'} alignItems={'center'}>
-            {isAuth ? (
+            {userData ? (
               <>
                 <IconButton sx={{ mr: '10px' }}>
                   <SmsOutlinedIcon />

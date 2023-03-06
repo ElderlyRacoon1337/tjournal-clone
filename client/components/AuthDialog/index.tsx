@@ -47,8 +47,12 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, setOpen }) => {
         sx={{ px: 5, py: 3, borderRadius: 20 }}
       >
         {formType == 'main' && <MainForm setFormType={setFormType} />}
-        {formType == 'login' && <LoginForm setFormType={setFormType} />}
-        {formType == 'register' && <RegisterForm setFormType={setFormType} />}
+        {formType == 'login' && (
+          <LoginForm setOpen={setOpen} setFormType={setFormType} />
+        )}
+        {formType == 'register' && (
+          <RegisterForm setOpen={setOpen} setFormType={setFormType} />
+        )}
       </Stack>
     </Dialog>
   );

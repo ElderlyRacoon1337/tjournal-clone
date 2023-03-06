@@ -1,6 +1,3 @@
-import Header from '@/components/Header';
-import { theme } from '@/theme';
-import { CssBaseline, ThemeProvider } from '@mui/material';
 import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {
@@ -19,11 +16,8 @@ export default function Document() {
         ></link>
       </Head>
       <body>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Main />
-          <NextScript />
-        </ThemeProvider>
+        <Main />
+        <NextScript />
       </body>
     </Html>
   );
