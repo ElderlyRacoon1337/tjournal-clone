@@ -12,7 +12,7 @@ export class PostService {
     @InjectRepository(PostEntity) private repository: Repository<PostEntity>,
   ) {}
 
-  create(createPostDto: CreatePostDto) {
+  create(userId: number, createPostDto: CreatePostDto) {
     return this.repository.save(createPostDto);
   }
 
@@ -81,7 +81,7 @@ export class PostService {
     return post;
   }
 
-  async update(id: number, updatePostDto: UpdatePostDto) {
+  async update(userId: number, id: number, updatePostDto: UpdatePostDto) {
     const post = await this.repository.findOneBy({ id });
     if (!post) {
       throw new NotFoundException('Not found');
@@ -91,7 +91,7 @@ export class PostService {
     return updatedPost;
   }
 
-  async remove(id: number) {
+  async remove(userId: number, id: number) {
     const post = await this.repository.findOneBy({ id });
     if (!post) {
       throw new NotFoundException('Not found');

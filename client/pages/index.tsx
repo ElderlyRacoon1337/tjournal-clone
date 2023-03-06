@@ -1,22 +1,43 @@
 import Post from '@/components/Post';
 import MainLayout from '@/layouts/MainLayout';
-import { getMe, setUserData } from '@/redux/slices/user';
-import { wrapper } from '@/redux/store';
-import { UserApi } from '@/utils/api/axios';
-import { parseCookies } from 'nookies';
+import { Api } from '@/utils/api';
+import { PostItem } from '@/utils/api/types';
+import { NextPage, NextPageContext } from 'next';
 
-export default function Home() {
-  return (
-    <MainLayout>
-      <Post />
-      <Post />
-      <Post />
-    </MainLayout>
-  );
+interface HomeProps {
+  posts: PostItem[];
 }
 
-// export const getServerSideProps = wrapper.getServerSideProps(
-//   (store) => async (ctx) => {
+const Home: NextPage<HomeProps> = ({ posts }) => {
+  return (
+    <MainLayout>
+      {posts?.map((post, i) => (
+        <Post
+          key={i}
+          id={post.id}
+          title={post.title}
+          descriprion={post?.body[0]?.data?.text}
+        />
+      ))}
+    </MainLayout>
+  );
+};
 
-//   }
-// );
+export default Home;
+
+export const getServerSideProps = async (ctx: NextPageContext) => {
+  try {
+    const posts = await Api().post.getAll();
+    return {
+      props: {
+        posts,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        posts: null,
+      },
+    };
+  }
+};

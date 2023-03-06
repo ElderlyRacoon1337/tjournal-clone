@@ -12,11 +12,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { RegisterSchema } from '@/utils/validations';
 import { CreateUserDto } from '@/utils/api/types';
-import { UserApi } from '@/utils/api/axios';
-import { setCookie } from 'nookies';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { registration } from '@/redux/slices/user';
+import { Api } from '@/utils/api';
+import { setUserData } from '@/redux/slices/user';
+import { setCookie } from 'nookies';
 
 const RegisterForm = ({ setFormType, setOpen }: any) => {
   const {
@@ -34,19 +34,19 @@ const RegisterForm = ({ setFormType, setOpen }: any) => {
 
   const onSubmit = async (dto: CreateUserDto) => {
     try {
-      // const data = await UserApi.register(dto);
+      const data = await Api().user.register(dto);
       // @ts-ignore
-      dispatch(registration(dto));
+      dispatch(setUserData(data));
       setOpen(false);
-      // setCookie(null, 'access_token', data.access_token, {
-      //   maxAge: 30 * 24 * 60 * 60,
-      //   path: '/',
-      // });
+      setCookie(null, 'access_token', data.access_token, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/',
+      });
     } catch (error: any) {
       console.warn('Authorization error');
       if (error) {
         console.log(error);
-        setErrorMessage(error.response.data.message);
+        setErrorMessage(error?.response?.data?.message);
         setTimeout(() => {
           setErrorMessage(null);
         }, 10000);

@@ -6,10 +6,17 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import Link from 'next/link';
 
-const Post = () => {
+interface PostProps {
+  id: number;
+  title: string;
+  descriprion: string;
+  imageUrl?: string;
+}
+
+const Post: React.FC<PostProps> = ({ id, title, descriprion, imageUrl }) => {
   return (
     <Stack mb={'30px'} maxWidth={'600px'}>
-      <Link href={'/news/123'}>
+      <Link href={`/news/${id}`}>
         <Paper
           sx={{
             p: '20px',
@@ -17,23 +24,16 @@ const Post = () => {
           }}
         >
           <Typography variant="h6" mb={'10px'}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto
-            sapiente odit quisquam minima provident fugit soluta odio natus qui
+            {title}
           </Typography>
           <Typography
             mb={'10px'}
             variant="body2"
             sx={{ color: 'text.secondary !important' }}
           >
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore,
-            ipsum veniam enim voluptas facere, nostrum quos, iste ratione
-            possimus explicabo laudantium fugit. Officiis esse ex nulla id
-            velit, eaque tenetur.
+            {descriprion}
           </Typography>
-          <img
-            src="https://d1wn0q81ehzw6k.cloudfront.net/additional/thul/media/313c12d1767baace?w=890&h=590&crop=1"
-            style={{ width: '100%' }}
-          />
+          {imageUrl && <img src={imageUrl} style={{ width: '100%' }} />}
           <Stack direction={'row'} justifyContent="space-between" mt={'10px'}>
             <IconButton>
               <ModeCommentOutlinedIcon />

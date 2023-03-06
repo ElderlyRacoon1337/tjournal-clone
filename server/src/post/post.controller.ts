@@ -23,7 +23,7 @@ export class PostController {
   @UseGuards(AuthGuard('jwt'))
   @Post()
   create(@Req() req, @Body() createPostDto: CreatePostDto) {
-    return this.postService.create(createPostDto);
+    return this.postService.create(+req.user.id, createPostDto);
   }
 
   @Get()
@@ -41,13 +41,19 @@ export class PostController {
     return this.postService.findOne(+id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.postService.update(+id, updatePostDto);
+  update(
+    @Req() req,
+    @Param('id') id: string,
+    @Body() updatePostDto: UpdatePostDto,
+  ) {
+    return this.postService.update(+req.user.id, +id, updatePostDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.postService.remove(+id);
+  remove(@Req() req, @Param('id') id: string) {
+    return this.postService.remove(+id, +req.user.id);
   }
 }

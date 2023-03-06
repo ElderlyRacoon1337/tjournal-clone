@@ -11,12 +11,12 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { LoginSchema } from '@/utils/validations';
-import { setCookie } from 'nookies';
 import { LoginDto } from '@/utils/api/types';
-import { UserApi } from '@/utils/api/axios';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { login, setUserData } from '@/redux/slices/user';
+import { setUserData } from '@/redux/slices/user';
+import { Api } from '@/utils/api';
+import { setCookie } from 'nookies';
 
 const LoginForm = ({ setFormType, setOpen }: any) => {
   const {
@@ -35,13 +35,18 @@ const LoginForm = ({ setFormType, setOpen }: any) => {
   const onSubmit = async (dto: LoginDto) => {
     try {
       // @ts-ignore
-      dispatch(login(dto));
+      const data = await Api().user.login(dto);
+      dispatch(setUserData(data));
       setOpen(false);
+      setCookie(null, 'access_token', data.access_token, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/',
+      });
     } catch (error: any) {
       console.warn('Authorization error');
       if (error) {
         console.log(error);
-        setErrorMessage(error.response.data.message);
+        setErrorMessage(error.response?.data?.message);
         setTimeout(() => {
           setErrorMessage(null);
         }, 10000);
