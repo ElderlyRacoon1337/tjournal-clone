@@ -1,9 +1,12 @@
+import { UserEntity } from './../../user/entities/user.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity('posts')
@@ -17,6 +20,9 @@ export class PostEntity {
   @Column({ type: 'jsonb' })
   body: any[];
 
+  @ManyToOne(() => UserEntity, { nullable: false, eager: true })
+  user: UserEntity;
+
   @Column({ default: 0 })
   views: number;
 
@@ -24,8 +30,8 @@ export class PostEntity {
   tags?: string;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
+  createdat: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  updatedAt: Date;
+  updatedat: Date;
 }

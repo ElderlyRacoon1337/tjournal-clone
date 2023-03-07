@@ -21,7 +21,22 @@ export type PostItem = {
   body: OutputData['blocks'];
   tags?: string;
   id: number;
+  user: any;
   views: number;
-  createdAt: string;
+  createdat: string;
+  updatedat: string;
+};
+
+export type CreateCommentDto = {
+  postId: number;
+  text: string;
+};
+
+export type CommentItem = {
+  id: number;
+  text: string;
+  user: any;
+  post: any;
+  createdatt: string;
   updatedAt: string;
 };

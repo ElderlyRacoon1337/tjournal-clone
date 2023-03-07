@@ -1,3 +1,4 @@
+import { CommentApi } from './commentApi';
 import { GetServerSidePropsContext, NextPageContext } from 'next';
 import { UserApi } from './userApi';
 import Cookies, { parseCookies } from 'nookies';
@@ -7,6 +8,7 @@ import { PostApi } from './postApi';
 export type ApiReturnType = {
   user: ReturnType<typeof UserApi>;
   post: ReturnType<typeof PostApi>;
+  comment: ReturnType<typeof CommentApi>;
 };
 
 export const Api = (
@@ -25,6 +27,7 @@ export const Api = (
   return {
     user: UserApi(instance),
     post: PostApi(instance),
+    comment: CommentApi(instance),
   };
 };
 

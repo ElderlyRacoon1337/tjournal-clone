@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -13,7 +17,10 @@ export class PostService {
   ) {}
 
   create(userId: number, createPostDto: CreatePostDto) {
-    return this.repository.save(createPostDto);
+    return this.repository.save({
+      ...createPostDto,
+      user: { id: userId },
+    });
   }
 
   findAll() {
@@ -32,7 +39,7 @@ export class PostService {
 
       case 'new':
       default:
-        return this.repository.find({ order: { createdAt: 'DESC' } });
+        return this.repository.find({ order: { createdat: 'DESC' } });
     }
   }
 
@@ -73,6 +80,7 @@ export class PostService {
       .execute();
 
     const post = await this.repository.findOneBy({ id });
+
     if (!post) {
       throw new NotFoundException('Not found');
     }
@@ -86,7 +94,13 @@ export class PostService {
     if (!post) {
       throw new NotFoundException('Not found');
     }
-    await this.repository.update(id, updatePostDto);
+    if (post.user.id !== userId) {
+      throw new ForbiddenException('No access');
+    }
+    await this.repository.update(id, {
+      ...updatePostDto,
+      user: { id: userId },
+    });
     const updatedPost = await this.repository.findOneBy({ id });
     return updatedPost;
   }
@@ -95,6 +109,9 @@ export class PostService {
     const post = await this.repository.findOneBy({ id });
     if (!post) {
       throw new NotFoundException('Not found');
+    }
+    if (post.user.id !== userId) {
+      throw new ForbiddenException('No access');
     }
     return this.repository.delete(id);
   }

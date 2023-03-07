@@ -14,6 +14,8 @@ import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 import { useState } from 'react';
 import Post from './Post';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
+import { selectUserData } from '@/redux/slices/user';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -41,7 +43,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const ProfilePage = () => {
+const ProfilePage = ({ user }: any) => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event: any, newValue: number) => {
@@ -72,7 +74,7 @@ const ProfilePage = () => {
               }}
             ></Box>
             <Typography variant="h4" fontWeight={'bold'} mb="10px">
-              Pavel Litov
+              {user.fullName}
             </Typography>
             <Stack direction={'row'} mb="10px">
               <Typography
@@ -84,7 +86,10 @@ const ProfilePage = () => {
               </Typography>
               <Typography>2 подписчика</Typography>
             </Stack>
-            <Typography>На проекте с сентября 2021</Typography>
+            <Typography>
+              Присоединился к проекту{' '}
+              {new Date(user.createdat).toLocaleDateString('ru')}
+            </Typography>
           </Stack>
           <Box>
             <Stack direction={'row'}>
@@ -114,9 +119,9 @@ const ProfilePage = () => {
       <Stack direction={'row'} justifyContent="space-between">
         <TabPanelStyled value={value} index={0}>
           <Box sx={{ maxWidth: '600px' }}>
+            {/* <Post />
             <Post />
-            <Post />
-            <Post />
+            <Post /> */}
           </Box>
         </TabPanelStyled>
         <TabPanel value={value} index={1}>

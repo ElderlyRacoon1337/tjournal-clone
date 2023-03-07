@@ -18,17 +18,15 @@ export class CommentEntity {
   @Column()
   text: string;
 
-  @ManyToOne(() => UserEntity, { nullable: false })
-  @JoinColumn({ name: 'userId' })
+  @ManyToOne(() => UserEntity, { nullable: false, eager: true })
   user: UserEntity;
 
-  @ManyToOne(() => PostEntity, { nullable: false })
-  @JoinColumn({ name: 'postId' })
+  @ManyToOne(() => PostEntity, { nullable: false, eager: true })
   post: PostEntity;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
+  createdatt: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  updatedAt: Date;
+  updatedatt: Date;
 }

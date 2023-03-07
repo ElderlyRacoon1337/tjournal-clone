@@ -10,6 +10,7 @@ import {
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Api } from '@/utils/api';
+import { useRouter } from 'next/router';
 
 const Editor = dynamic(
   () => import('../../components/Editor').then((m) => m.Editor),
@@ -23,15 +24,13 @@ const WritePage = () => {
   const [title, setTitle] = useState('');
   // const [body, setBody] = useState('');
   const [blocks, setBlocks] = useState([]);
+  const router = useRouter();
 
-  useEffect(() => {
-    console.log(blocks);
-  }, [blocks]);
-
-  const onAddPost = () => {
+  const onAddPost = async () => {
     try {
       setIsLoading(true);
-      Api().post.create({ title, body: blocks });
+      const post = await Api().post.create({ title, body: blocks });
+      router.push(`/write/${post.id}`);
     } catch (error) {
       console.warn(error);
     } finally {
@@ -78,7 +77,7 @@ const WritePage = () => {
         </Paper>
         <Box>
           <Button
-            disabled={isLoading}
+            disabled={isLoading || !blocks.length || !title}
             onClick={onAddPost}
             variant="contained"
             sx={{ mt: '20px' }}

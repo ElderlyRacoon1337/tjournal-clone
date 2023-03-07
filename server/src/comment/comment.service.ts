@@ -12,27 +12,44 @@ export class CommentService {
     private repository: Repository<CommentEntity>,
   ) {}
 
-  create(createCommentDto: CreateCommentDto) {
-    return this.repository.save({
+  async create(userId: number, createCommentDto: CreateCommentDto) {
+    const comment = await this.repository.save({
       text: createCommentDto.text,
       post: { id: createCommentDto.postId },
-      user: { id: createCommentDto.userId },
+      user: { id: userId },
     });
+
+    return this.repository.findOneBy({ id: comment.id });
   }
 
-  findAll() {
-    return this.repository.find();
+  async findAll(postId: string) {
+    const qb = this.repository.createQueryBuilder('c');
+    if (postId) {
+      qb.where('c.postId = :postId', { postId });
+    }
+    const result = await qb
+      .leftJoinAndSelect('c.post', 'post')
+      .leftJoinAndSelect('c.user', 'user')
+      .orderBy('createdatt', 'DESC')
+      .getMany();
+
+    if (!postId) {
+      return qb.limit(10).orderBy('createdatt', 'DESC').getMany();
+    }
+
+    // this.repository.find({ relations: ['user'] })
+    return result;
   }
 
   findOne(id: number) {
     return this.repository.findBy({ id });
   }
 
-  update(id: number, updateCommentDto: UpdateCommentDto) {
+  async update(userId: number, id: number, updateCommentDto: UpdateCommentDto) {
     return this.repository.update(id, updateCommentDto);
   }
 
-  remove(id: number) {
+  remove(userId: number, id: number) {
     return this.repository.delete(id);
   }
 }

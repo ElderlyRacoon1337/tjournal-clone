@@ -1,11 +1,24 @@
+import { Api } from '@/utils/api';
 import { ArrowBackIosOutlined } from '@mui/icons-material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Avatar, Box, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const SideComments = () => {
   const [isHidden, setIsHidden] = useState(false);
+  const [comments, setComments] = useState<any>([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const arr = await Api().comment.getAll();
+        setComments(arr);
+      } catch (error) {
+        console.warn(error);
+      }
+    })();
+  }, []);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -34,22 +47,32 @@ const SideComments = () => {
       </Stack>
       {!isHidden && (
         <Stack>
-          <Stack mb={'20px'}>
-            <Link href={'/profile/user'}>
-              <Stack direction={'row'} alignItems="center" mb={'10px'}>
-                <Avatar
-                  sx={{ mr: '10px' }}
-                  src="https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=1200&quality=85&auto=format&fit=max&s=a52bbe202f57ac0f5ff7f47166906403"
+          {comments.map((comm: any) => {
+            return (
+              <Link href={`/news/${comm.post.id}`}>
+                <Stack mb={'20px'}>
+                  <Link href={'/profile/user'}>
+                    <Stack direction={'row'} alignItems="center" mb={'10px'}>
+                      <Avatar sx={{ mr: '10px' }} src={comm.avararUrl} />
+                      <Typography fontWeight={500}>{comm.fullName}</Typography>
+                    </Stack>
+                  </Link>
+                  <Typography fontSize={'14px'} mb="5px">
+                    {comm.text}
+                  </Typography>
+                  <Typography fontWeight={500}>{comm.post.title}</Typography>
+                </Stack>
+                <Box
+                  sx={{
+                    borderBottom: '1px solid',
+                    borderColor: 'divider',
+                    width: '100%',
+                    my: '20px',
+                  }}
                 />
-                <Typography fontWeight={500}>Вася пупкин</Typography>
-              </Stack>
-            </Link>
-            <Typography fontSize={'14px'} mb="5px">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae
-              debitis nihil tempore officiis dolores optio a dolorum nulla eum
-            </Typography>
-            <Typography fontWeight={500}>Как у вас дела?</Typography>
-          </Stack>
+              </Link>
+            );
+          })}
         </Stack>
       )}
     </Box>

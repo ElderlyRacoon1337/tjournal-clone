@@ -1,6 +1,6 @@
-import { Paper, Stack, Typography } from '@mui/material';
+import { Avatar, Paper, Stack, Typography } from '@mui/material';
 
-const RatingPage = () => {
+const RatingPage = ({ users }: any) => {
   return (
     <Stack>
       <Paper sx={{ mb: '20px', p: '20px' }}>
@@ -20,22 +20,28 @@ const RatingPage = () => {
           sx={{ borderBottom: '1px solid #eee', pb: '10px', mb: '10px' }}
         >
           <Typography flex={'0 0 65%'}>Имя пользователя</Typography>
+
           <Typography flex={'0 0 35%'}>Рейтинг</Typography>
         </Stack>
-        <Stack>
-          <Stack direction={'row'} py="10px">
-            <Typography flex={'0 0 65%'}>1 Вася Пупкин</Typography>
-            <Typography flex={'0 0 35%'}>540</Typography>
-          </Stack>
-          <Stack direction={'row'} py="10px">
-            <Typography flex={'0 0 65%'}>1 Вася Пупкин</Typography>
-            <Typography flex={'0 0 35%'}>540</Typography>
-          </Stack>{' '}
-          <Stack direction={'row'} py="10px">
-            <Typography flex={'0 0 65%'}>1 Вася Пупкин</Typography>
-            <Typography flex={'0 0 35%'}>540</Typography>
-          </Stack>
-        </Stack>
+        {users.map((user: any) => {
+          return (
+            <Stack direction={'row'} sx={{ pb: '10px', mb: '10px' }}>
+              <Stack flex={'0 0 65%'} direction={'row'} alignItems="center">
+                <Avatar
+                  sx={{
+                    mr: '10px',
+                    bgcolor: 'secondary.main',
+                    color: 'text.primary',
+                  }}
+                >
+                  {user.fullName[0]}
+                </Avatar>
+                <Typography>{user.fullName}</Typography>
+              </Stack>
+              <Typography flex={'0 0 35%'}>123</Typography>
+            </Stack>
+          );
+        })}
       </Paper>
     </Stack>
   );

@@ -14,4 +14,19 @@ export const PostApi = (instance: AxiosInstance) => ({
     );
     return data;
   },
+
+  async getOne(id: string) {
+    const { data } = await instance.get<PostItem>(`posts/${id}`);
+    return data;
+  },
+
+  async updatePost(id: number, dto: CreatePostDto) {
+    const { data } = await instance.patch(`posts/${id}`, dto);
+    return data;
+  },
+
+  async searchPost(title: string) {
+    const { data } = await instance.get(`posts/search?title=${title}`);
+    return data.items;
+  },
 });

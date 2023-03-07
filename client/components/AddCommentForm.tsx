@@ -1,13 +1,24 @@
+import { Api } from '@/utils/api';
 import { Box, Button, InputBase } from '@mui/material';
 import React, { useState } from 'react';
 
-const AddCommentForm = () => {
+const AddCommentForm = ({ postId, setComments }: any) => {
   const [isActive, setIsActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [text, setText] = useState('');
 
-  const onAddComment = () => {
-    setIsActive(false);
-    setText('');
+  const onAddComment = async () => {
+    setIsLoading(true);
+    try {
+      const comment = await Api().comment.create(postId, text);
+      setComments((prev: any) => [comment, ...prev]);
+      setIsActive(false);
+      setText('');
+    } catch (error) {
+      console.warn(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <Box sx={{ position: 'relative' }}>
@@ -32,6 +43,7 @@ const AddCommentForm = () => {
       />
       {isActive && (
         <Button
+          disabled={isLoading}
           onClick={onAddComment}
           variant="contained"
           sx={{ position: 'absolute', bottom: '40px', right: '10px' }}
